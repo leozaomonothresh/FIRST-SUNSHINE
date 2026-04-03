@@ -88,7 +88,6 @@
         opacity: 0;
       }
     }
-
   </style>
 </head>
 
@@ -219,17 +218,21 @@ function verificar() {
     // esconde interface
     container.style.display = "none";
 
-    // anima macaco
+    // inicia animação
     macaco.classList.add("pop");
 
-    setTimeout(() => {
-      macaco.classList.add("subir");
-    }, 600);
+    // quando terminar o POP → sobe
+    macaco.addEventListener("animationend", function etapa1() {
 
-    // redireciona após animação completa
-    setTimeout(() => {
-      window.location.href = "johhmayer.html";
-    }, 3800);
+      macaco.removeEventListener("animationend", etapa1);
+      macaco.classList.add("subir");
+
+      // quando terminar de subir → redireciona
+      macaco.addEventListener("animationend", function etapa2() {
+        window.location.href = "johhmayer.html";
+      }, { once: true });
+
+    });
 
   } else {
 
