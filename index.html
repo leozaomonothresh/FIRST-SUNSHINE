@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <title>...</title>
 
+  <!-- FONTES -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
   <style>
     body {
       margin: 0;
       height: 100vh;
       background: black;
       color: white;
-      font-family: monospace;
+      font-family: 'Share Tech Mono', monospace;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -21,47 +24,63 @@
     .container {
       opacity: 0;
       transition: opacity 1.5s ease;
+      width: 90%;
+      max-width: 500px;
     }
 
     .mostrar {
       opacity: 1;
     }
 
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(28px, 6vw, 48px);
+      letter-spacing: 4px;
+    }
+
+    #pergunta {
+      margin-top: 25px;
+      font-size: clamp(16px, 4vw, 24px);
+      letter-spacing: 2px;
+    }
+
     input {
-      padding: 12px;
-      border-radius: 10px;
+      padding: 14px;
+      border-radius: 12px;
       border: none;
       text-align: center;
-      margin-top: 20px;
+      margin-top: 25px;
       background: #111;
       color: white;
+      width: 80%;
+      font-size: clamp(16px, 4vw, 20px);
+      font-family: 'Share Tech Mono', monospace;
     }
 
     button {
-      padding: 12px 25px;
-      border-radius: 10px;
+      padding: 14px 30px;
+      border-radius: 12px;
       border: none;
       background: #ff4d6d;
       color: white;
       cursor: pointer;
-      margin-top: 10px;
-    }
-
-    #pergunta {
-      margin-top: 20px;
+      margin-top: 15px;
+      font-size: clamp(16px, 4vw, 20px);
+      font-family: 'Cinzel', serif;
       letter-spacing: 2px;
     }
 
     #erro {
       margin-top: 20px;
       color: #ff4d6d;
-      min-height: 24px;
+      min-height: 30px;
+      font-size: clamp(14px, 3.5vw, 18px);
     }
 
     /* 🐒 */
     #macaco {
       position: absolute;
-      font-size: 70px;
+      font-size: clamp(60px, 14vw, 100px);
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
@@ -78,7 +97,7 @@
 
     @keyframes pop {
       0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-      80% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      80% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
       100% { transform: translate(-50%, -50%) scale(1); }
     }
 
@@ -102,7 +121,7 @@
 
     <input type="text" id="senha" placeholder="Digite a senha">
     <br>
-    <button onclick="verificar()">Entrar</button>
+    <button onclick="verificar()">ENTRAR</button>
 
     <p id="erro"></p>
   </div>
@@ -134,20 +153,14 @@ const teclado = document.getElementById("teclado");
 
 // ENTER
 document.getElementById("senha").addEventListener("keydown", function(e) {
-  if (e.key === "Enter") {
-    verificar();
-  }
+  if (e.key === "Enter") verificar();
 });
 
 // FADE IN
-setTimeout(() => {
-  container.classList.add("mostrar");
-}, 500);
+setTimeout(() => container.classList.add("mostrar"), 500);
 
 // SUMIR TÍTULO
-setTimeout(() => {
-  titulo.style.opacity = "0";
-}, 2500);
+setTimeout(() => titulo.style.opacity = "0", 2500);
 
 // MOSTRAR SENHA
 setTimeout(() => {
@@ -158,7 +171,6 @@ setTimeout(() => {
   vento.play().catch(() => {});
 
   escreverTexto("O APELIDO QUE VOCE ODEIA");
-
 }, 4000);
 
 
@@ -169,7 +181,7 @@ function escreverTexto(texto) {
 
   function digitar() {
     if (i < texto.length) {
-      pergunta.innerHTML += texto.charAt(i);
+      pergunta.innerHTML += texto[i];
 
       teclado.currentTime = 0;
       teclado.play().catch(() => {});
@@ -190,7 +202,7 @@ function escreverErro(texto) {
 
   function digitar() {
     if (i < texto.length) {
-      erro.innerHTML += texto.charAt(i);
+      erro.innerHTML += texto[i];
 
       teclado.currentTime = 0;
       teclado.play().catch(() => {});
@@ -207,28 +219,20 @@ function escreverErro(texto) {
 // VERIFICAÇÃO
 function verificar() {
   var input = document.getElementById("senha");
-  var senha = input.value.toLowerCase().trim();
-
-  senha = senha.replace(/\s+/g, " ");
+  var senha = input.value.toLowerCase().trim().replace(/\s+/g, " ");
 
   if (senha === "macaquinha") {
 
     erro.innerHTML = "";
-
-    // esconde interface
     container.style.display = "none";
 
-    // inicia animação
     macaco.classList.add("pop");
 
-    // quando terminar o POP → sobe
     macaco.addEventListener("animationend", function etapa1() {
-
       macaco.removeEventListener("animationend", etapa1);
       macaco.classList.add("subir");
 
-      // quando terminar de subir → redireciona
-      macaco.addEventListener("animationend", function etapa2() {
+      macaco.addEventListener("animationend", () => {
         window.location.href = "johhmayer.html";
       }, { once: true });
 
