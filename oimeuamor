@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>...</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 500px;
+    }
+
+    #pergunta {
+      font-size: clamp(18px, 4vw, 26px);
+      margin-bottom: 30px;
+      min-height: 80px;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      background: #111;
+      color: white;
+      text-align: center;
+      width: 80%;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 25px;
+      border: none;
+      border-radius: 8px;
+      background: white;
+      color: black;
+      cursor: pointer;
+    }
+
+    #erro {
+      margin-top: 20px;
+      color: #888;
+      min-height: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div id="pergunta"></div>
+
+  <input type="text" id="resposta" placeholder="...">
+  <br>
+  <button onclick="verificar()">Enviar</button>
+
+  <div id="erro"></div>
+
+</div>
+
+<audio id="teclado">
+  <source src="teclado.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const texto = "QUAL ERA O INGREDIENTE PRINCIPAL DO MOLHO DO LANCHE DE CONTRA-FILÉ QUE EU FIZ PARA VOCÊ?";
+const pergunta = document.getElementById("pergunta");
+const teclado = document.getElementById("teclado");
+
+let i = 0;
+
+// efeito máquina de escrever
+function digitar() {
+  if (i < texto.length) {
+    pergunta.innerHTML += texto.charAt(i);
+
+    teclado.currentTime = 0;
+    teclado.play().catch(()=>{});
+
+    i++;
+    setTimeout(digitar, 40);
+  }
+}
+
+digitar();
+
+
+// ENTER também envia
+document.getElementById("resposta").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") verificar();
+});
+
+
+// validação
+function normalizar(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+function verificar() {
+  let resposta = normalizar(document.getElementById("resposta").value);
+
+  if (
+    resposta === "gorgonzola" ||
+    resposta === "queijo gorgonzola"
+  ) {
+
+    window.location.href = "halfway.html";
+
+  } else {
+
+    mostrarErro("voce sempre terá uma chance");
+  }
+}
+
+
+// erro com digitação
+function mostrarErro(msg) {
+  const erro = document.getElementById("erro");
+  erro.innerHTML = "";
+
+  let i = 0;
+
+  function digitarErro() {
+    if (i < msg.length) {
+      erro.innerHTML += msg.charAt(i);
+      i++;
+      setTimeout(digitarErro, 30);
+    }
+  }
+
+  digitarErro();
+}
+
+</script>
+
+</body>
+</html>
