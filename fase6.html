@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Penúltima resposta 🔐</title>
+
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background: #0f0f0f;
+      color: white;
+      margin-top: 100px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      text-align: center;
+      width: 250px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ff1f4b;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      color: #ff8080;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>🔐 Penúltima Charada</h2>
+  <p><i>Qual o nome da sua música?</i></p>
+
+  <input type="text" id="senha" placeholder="Digite a resposta">
+  <br>
+  <button onclick="verificar()">Entrar</button>
+
+  <p id="mensagem"></p>
+
+  <script>
+    function verificar() {
+      var senha = document.getElementById("senha").value
+        .toLowerCase()
+        .trim();
+
+      // remove espaços extras
+      senha = senha.replace(/\s+/g, " ");
+
+      if (senha === "first sunshine") {
+        window.location.href = "final2.html";
+      } else {
+        document.getElementById("mensagem").innerText = "Você sempre terá uma chance.";
+        document.getElementById("senha").value = "";
+      }
+    }
+  </script>
+
+</body>
+</html>
