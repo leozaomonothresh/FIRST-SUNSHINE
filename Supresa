@@ -1,32 +1,73 @@
-index.html
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title>Surpresa ❤️</title>
+
+  <style>
+    body {
+      text-align: center;
+      font-family: sans-serif;
+      background: #0f0f0f;
+      color: white;
+      margin-top: 100px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      background: #ff4d6d;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #ff1f4b;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      color: #ff8080;
+    }
+  </style>
 </head>
-<body style="text-align:center; font-family:sans-serif; margin-top:50px;">
 
-<h2>Tenho uma pergunta pra você...</h2>
-<p>O que é que cresce quanto mais se divide?</p>
+<body>
 
-<input type="text" id="senha" placeholder="Digite sua resposta">
-<br><br>
-<button onclick="verificar()">Enviar</button>
+  <h2>🔐 Área Secreta</h2>
+  <p>Dica: <i>O apelido que você odeia...</i></p>
 
-<p id="resultado"></p>
+  <input type="text" id="senha" placeholder="Digite a senha">
+  <br>
+  <button onclick="verificar()">Entrar</button>
 
-<script>
-function verificar() {
-  var senha = document.getElementById("senha").value.toLowerCase();
+  <p id="mensagem"></p>
 
-  if (senha === "amor") {
-    window.location.href = "fase2.html";
-  } else {
-    document.getElementById("resultado").innerHTML = "Hmm... tenta de novo 💭";
-  }
-}
-</script>
+  <script>
+    function verificar() {
+      var senha = document.getElementById("senha").value;
+
+      if (senha.toLowerCase() === "macaquinha") {
+        window.location.href = "acerto.html";
+      } else {
+        document.getElementById("mensagem").innerText = "Você sempre terá uma chance.";
+        
+        // limpa o campo e mantém na mesma tela
+        document.getElementById("senha").value = "";
+      }
+    }
+  </script>
 
 </body>
 </html>
