@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Uma mensagem para você ❤️</title>
+
+  <style>
+    body {
+      background: #0f0f0f;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+    }
+
+    .sim {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .nao {
+      background: #ff4d4d;
+      color: white;
+    }
+
+    button:hover {
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>💌</h2>
+
+<p>
+Minha querida Rayane, espero que você esteja bem.<br><br>
+
+Você não acha que as horas têm passado mais devagar ultimamente?<br><br>
+
+Apesar de estarmos lotados de coisas pra fazer, parece que sempre que deitamos a cabeça no travesseiro o sono não vem, os sonhos não são bons e a sensação de que sempre falta alguma coisa tem me perseguido há muito tempo. Você também sente isso?<br><br>
+
+Se a resposta for sim, peço que você continue lendo.<br><br>
+
+Caso seja não, pode ignorar o restante dessa carta pois ela já não mais te pertence.
+</p>
+
+<h3>Deseja continuar?</h3>
+
+<button class="sim" onclick="continuar()">Sim</button>
+<button class="nao" onclick="nao()">Não</button>
+
+</div>
+
+<script>
+function continuar() {
+  window.location.href = "continua.html";
+}
+
+function nao() {
+  alert("Tudo bem... talvez não seja o momento.");
+}
+</script>
+
+</body>
+</html>
