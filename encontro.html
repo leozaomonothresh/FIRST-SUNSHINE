@@ -14,7 +14,10 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      flex-direction: column;
+    }
+
+    #container {
+      text-align: center;
     }
 
     input {
@@ -37,15 +40,16 @@
       margin-top: 10px;
     }
 
-    #mensagem {
-      margin-top: 30px;
-      font-size: 28px;
+    #mensagemFinal {
+      font-size: 40px;
       color: #ff4d6d;
     }
   </style>
 </head>
 
 <body>
+
+<div id="container">
 
   <h2>🔐 Última Charada</h2>
   <p><i>De quem eu sou?</i></p>
@@ -54,24 +58,26 @@
   <br>
   <button onclick="verificar()">Entrar</button>
 
-  <p id="mensagem"></p>
+</div>
 
-  <script>
-    function verificar() {
-      var senha = document.getElementById("senha").value
-        .toLowerCase()
-        .trim();
+<script>
+  function verificar() {
+    var senha = document.getElementById("senha").value
+      .toLowerCase()
+      .trim();
 
-      senha = senha.replace(/\s+/g, " ");
+    senha = senha.replace(/\s+/g, " ");
 
-      if (senha === "meu") {
-        document.getElementById("mensagem").innerText = "Eu te amo ❤️";
-      } else {
-        document.getElementById("mensagem").innerText = "Você sempre terá uma chance.";
-        document.getElementById("senha").value = "";
-      }
+    if (senha === "meu") {
+      // apaga tudo da tela
+      document.getElementById("container").innerHTML = 
+        "<p id='mensagemFinal'>Eu te amo ❤️</p>";
+    } else {
+      alert("Você sempre terá uma chance.");
+      document.getElementById("senha").value = "";
     }
-  </script>
+  }
+</script>
 
 </body>
 </html>
