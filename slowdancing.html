@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>...</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -33,22 +33,35 @@
       font-weight: 300;
     }
 
-    .dica {
-      margin-top: 40px;
-      font-size: clamp(14px, 3vw, 18px);
-      color: #00a8c6;
-      letter-spacing: 2px;
+    /* 🎵 BOTÃO PLAY */
+    .player {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 22px;
+      transition: all 0.3s ease;
+    }
+
+    .player:hover {
+      transform: scale(1.1);
+      background: rgba(255,255,255,0.25);
+    }
+
+    .player:active {
+      transform: scale(0.9);
     }
 
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -56,34 +69,46 @@
 <body>
 
 <div class="container">
-
   <p>
 Se você sente que falta algo, nesta carta você (talvez) encontrará a resposta que tem procurado, de certa forma, inconscientemente.<br><br>
 
 Mas achar respostas não é algo simples. Você precisa ir até elas; porém, essas respostas têm o desejo de te alcançar — e elas estão próximas de você. Você só precisa voltar no tempo.<br><br>
 
-Neste exato momento, você está na primeira resposta: o lugar onde o tempo passou rápido demais e hoje não habita tempo nenhum. O lugar onde muitas promessas foram feitas, onde nós passamos horas sorrindo, brincando, dormindo, amando — e onde nos destruímos. Porém, este não é o começo nem o fim. Você precisa chegar ao meio desta história, o lugar onde nós descobrimos um ao outro.<br><br>
+Neste exato momento, você está na primeira resposta...<br><br>
 
-O lugar onde todos os desejos se tornavam realidade e a realidade parecia um sonho. O lugar onde os fantasmas dessa história habitam. É lá que você vai encontrar a segunda resposta.
+O lugar onde todos os desejos se tornavam realidade e a realidade parecia um sonho. É lá que você vai encontrar a segunda resposta.
   </p>
-
-  <div class="dica">
-    Dica: Local onde nós mais cozinhamos.
-  </div>
-
 </div>
 
-<!-- 🎵 MÚSICA -->
+<!-- 🎵 PLAYER -->
+<div class="player" onclick="toggleMusica()" id="botao">
+  ▶
+</div>
+
 <audio id="musica" loop>
   <source src="slowdancingcover.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-document.body.addEventListener("click", () => {
-  const musica = document.getElementById("musica");
-  musica.volume = 0.2;
-  musica.play().catch(() => {});
-}, { once: true });
+
+const musica = document.getElementById("musica");
+const botao = document.getElementById("botao");
+
+let tocando = false;
+
+function toggleMusica() {
+  if (!tocando) {
+    musica.volume = 0.3;
+    musica.play().catch(()=>{});
+    botao.innerHTML = "⏸";
+    tocando = true;
+  } else {
+    musica.pause();
+    botao.innerHTML = "▶";
+    tocando = false;
+  }
+}
+
 </script>
 
 </body>
