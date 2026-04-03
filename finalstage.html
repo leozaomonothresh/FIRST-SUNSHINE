@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>...</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .mostrar {
+      opacity: 1;
+    }
+
+    #pergunta {
+      font-size: 20px;
+      min-height: 60px;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      text-align: center;
+      margin-top: 20px;
+      background: #111;
+      color: white;
+      width: 80%;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 10px;
+      border: none;
+      background: white;
+      color: black;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #erro {
+      margin-top: 20px;
+      color: #888;
+      min-height: 24px;
+    }
+
+    /* 🌻 GIRASSOL */
+    .flor {
+      font-size: 55px;
+      margin-top: 30px;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    /* 👉 ANIMAÇÃO DE CLIQUE (não conflita) */
+    .click {
+      animation: clickAnim 0.6s ease;
+    }
+
+    @keyframes clickAnim {
+      0%   { transform: scale(1) rotate(0deg); }
+      30%  { transform: scale(1.4) rotate(15deg); }
+      60%  { transform: scale(0.9) rotate(-10deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* 👉 PULSE (igual halfway) */
+    .pulse {
+      animation: pulseAnim 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseAnim {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.12); }
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container" id="conteudo">
+
+  <div id="senhaBox">
+    <p id="pergunta"></p>
+
+    <input type="text" id="senha" placeholder="...">
+    <br>
+    <button onclick="verificar()">Entrar</button>
+
+    <p id="erro"></p>
+  </div>
+
+</div>
+
+<audio id="teclado">
+  <source src="teclado.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="musica" loop preload="auto">
+  <source src="firstsunshine.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const container = document.getElementById("conteudo");
+const pergunta = document.getElementById("pergunta");
+const erro = document.getElementById("erro");
+const teclado = document.getElementById("teclado");
+
+// ENTER
+document.getElementById("senha").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") verificar();
+});
+
+// FADE
+setTimeout(() => {
+  container.classList.add("mostrar");
+}, 500);
+
+// CHARADA
+escreverTexto("DE QUEM EU SOU?");
+
+function escreverTexto(texto) {
+  let i = 0;
+  pergunta.innerHTML = "";
+
+  function digitar() {
+    if (i < texto.length) {
+      pergunta.innerHTML += texto.charAt(i);
+
+      teclado.currentTime = 0;
+      teclado.play().catch(()=>{});
+
+      i++;
+      setTimeout(digitar, 60);
+    }
+  }
+
+  digitar();
+}
+
+// NORMALIZA
+function normalizar(str) {
+  return str.toLowerCase().trim();
+}
+
+// VERIFICAÇÃO
+function verificar() {
+  let senha = normalizar(document.getElementById("senha").value);
+
+  if (senha === "meu") {
+
+    document.body.innerHTML = `
+      <div style="
+        height: 100vh;
+        background: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-family: monospace;
+        font-size: clamp(28px, 6vw, 42px);
+      ">
+        <div id="textoFinal"></div>
+        <div class="flor" id="flor" onclick="tocarMusica()">🌻</div>
+        <div style="margin-top:10px; font-size:14px; opacity:0.6;">me aperte C:</div>
+      </div>
+    `;
+
+    const texto = "Eu te amo";
+    const elemento = document.getElementById("textoFinal");
+
+    let i = 0;
+
+    function digitarFinal() {
+      if (i < texto.length) {
+        elemento.innerHTML += texto.charAt(i);
+
+        teclado.currentTime = 0;
+        teclado.play().catch(()=>{});
+
+        i++;
+        setTimeout(digitarFinal, 80);
+      }
+    }
+
+    digitarFinal();
+
+  } else {
+    mostrarErro("voce sempre terá uma chance");
+  }
+}
+
+// ERRO
+function mostrarErro(msg) {
+  erro.innerHTML = "";
+  let i = 0;
+
+  function digitarErro() {
+    if (i < msg.length) {
+      erro.innerHTML += msg.charAt(i);
+      i++;
+      setTimeout(digitarErro, 30);
+    }
+  }
+
+  digitarErro();
+}
+
+// 🌻 CLICK PERFEITO
+function tocarMusica() {
+  const flor = document.getElementById("flor");
+  const musica = document.getElementById("musica");
+
+  musica.volume = 0.4;
+  musica.play().catch(()=>{});
+
+  // anima clique
+  flor.classList.add("click");
+
+  setTimeout(() => {
+    flor.classList.remove("click");
+
+    // força reflow (garante funcionamento em preview)
+    void flor.offsetWidth;
+
+    // ativa pulse permanente
+    flor.classList.add("pulse");
+
+  }, 600);
+}
+
+</script>
+
+</body>
+</html>
