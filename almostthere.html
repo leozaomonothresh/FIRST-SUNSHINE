@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>...</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+      width: 90%;
+      max-width: 500px;
+    }
+
+    .mostrar {
+      opacity: 1;
+    }
+
+    #textoInicial {
+      font-size: 22px;
+      letter-spacing: 3px;
+    }
+
+    #pergunta {
+      margin-top: 30px;
+      font-size: 18px;
+      min-height: 60px;
+    }
+
+    input {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      text-align: center;
+      margin-top: 20px;
+      background: #111;
+      color: white;
+      width: 80%;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 10px;
+      border: none;
+      background: white;
+      color: black;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #erro {
+      margin-top: 20px;
+      color: #888;
+      min-height: 24px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container" id="conteudo">
+
+  <div id="textoInicial">ESTAMOS QUASE LA...</div>
+
+  <div id="senhaBox" style="display:none;">
+    <p id="pergunta"></p>
+
+    <input type="text" id="senha" placeholder="...">
+    <br>
+    <button onclick="verificar()">Entrar</button>
+
+    <p id="erro"></p>
+  </div>
+
+</div>
+
+<audio id="teclado">
+  <source src="teclado.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const container = document.getElementById("conteudo");
+const textoInicial = document.getElementById("textoInicial");
+const senhaBox = document.getElementById("senhaBox");
+const pergunta = document.getElementById("pergunta");
+const erro = document.getElementById("erro");
+const teclado = document.getElementById("teclado");
+
+// ENTER
+document.getElementById("senha").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") verificar();
+});
+
+// FADE IN
+setTimeout(() => {
+  container.classList.add("mostrar");
+}, 500);
+
+// ESCONDE TEXTO INICIAL
+setTimeout(() => {
+  textoInicial.style.opacity = "0";
+}, 2500);
+
+// MOSTRA CHARADA
+setTimeout(() => {
+  textoInicial.style.display = "none";
+  senhaBox.style.display = "block";
+
+  escreverTexto("NOME DO MENINO + E + NOME DA MENINA");
+
+}, 4000);
+
+
+// DIGITA TEXTO
+function escreverTexto(texto) {
+  let i = 0;
+  pergunta.innerHTML = "";
+
+  function digitar() {
+    if (i < texto.length) {
+      pergunta.innerHTML += texto.charAt(i);
+
+      teclado.currentTime = 0;
+      teclado.play().catch(()=>{});
+
+      i++;
+      setTimeout(digitar, 60);
+    }
+  }
+
+  digitar();
+}
+
+
+// NORMALIZA TEXTO
+function normalizar(str) {
+  return str
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, " ");
+}
+
+
+// VERIFICAÇÃO
+function verificar() {
+  let senha = normalizar(document.getElementById("senha").value);
+
+  if (senha === "romeu e aurora") {
+
+    window.location.href = "final.html";
+
+  } else {
+
+    mostrarErro("voce sempre terá uma chance");
+  }
+}
+
+
+// ERRO COM DIGITAÇÃO
+function mostrarErro(msg) {
+  erro.innerHTML = "";
+  let i = 0;
+
+  function digitarErro() {
+    if (i < msg.length) {
+      erro.innerHTML += msg.charAt(i);
+      i++;
+      setTimeout(digitarErro, 30);
+    }
+  }
+
+  digitarErro();
+}
+
+</script>
+
+</body>
+</html>
