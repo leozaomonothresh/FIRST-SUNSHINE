@@ -19,6 +19,7 @@
       align-items: center;
       text-align: center;
       padding: 20px;
+      overflow: hidden;
     }
 
     .container {
@@ -31,33 +32,52 @@
       font-size: clamp(15px, 3.5vw, 20px);
       line-height: 1.9;
       font-weight: 300;
+      margin-bottom: 30px;
     }
 
-    /* 🎵 BOTÃO PLAY */
-    .player {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(10px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    /* 🌻 */
+    .flor {
+      font-size: 50px;
       cursor: pointer;
-      font-size: 22px;
-      transition: all 0.3s ease;
+      display: inline-block;
+
+      animation: flutuar 3s ease-in-out infinite,
+                 pulsar 2s ease-in-out infinite;
     }
 
-    .player:hover {
-      transform: scale(1.1);
-      background: rgba(255,255,255,0.25);
+    .hint {
+      margin-top: 10px;
+      font-size: 14px;
+      opacity: 0.6;
+      letter-spacing: 1px;
     }
 
-    .player:active {
-      transform: scale(0.9);
+    .dica {
+      margin-top: 30px;
+      font-size: 15px;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
+
+    @keyframes flutuar {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes pulsar {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    .clicado {
+      animation: clickAnim 0.6s ease;
+    }
+
+    @keyframes clickAnim {
+      0% { transform: scale(1) rotate(0deg); }
+      30% { transform: scale(1.4) rotate(15deg); }
+      60% { transform: scale(0.9) rotate(-10deg); }
+      100% { transform: scale(1) rotate(0deg); }
     }
 
     @keyframes fadeIn {
@@ -69,6 +89,7 @@
 <body>
 
 <div class="container">
+
   <p>
 Se você sente que falta algo, nesta carta você (talvez) encontrará a resposta que tem procurado, de certa forma, inconscientemente.<br><br>
 
@@ -78,35 +99,33 @@ Neste exato momento, você está na primeira resposta...<br><br>
 
 O lugar onde todos os desejos se tornavam realidade e a realidade parecia um sonho. É lá que você vai encontrar a segunda resposta.
   </p>
+
+  <div class="dica">
+    Dica: Local onde nós mais cozinhamos.
+  </div>
+
+  <div class="flor" onclick="tocarMusica(this)">🌻</div>
+  <div class="hint">me aperte C:</div>
+
 </div>
 
-<!-- 🎵 PLAYER -->
-<div class="player" onclick="toggleMusica()" id="botao">
-  ▶
-</div>
-
-<audio id="musica" loop>
-  <source src="slowdancingcover.mp3" type="audio/mpeg">
+<audio id="musica" loop preload="auto">
+  <source src="slowdaningcover.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-const musica = document.getElementById("musica");
-const botao = document.getElementById("botao");
+function tocarMusica(el) {
+  const musica = document.getElementById("musica");
 
-let tocando = false;
+  musica.volume = 0.3;
+  musica.play().catch(()=>{});
 
-function toggleMusica() {
-  if (!tocando) {
-    musica.volume = 0.3;
-    musica.play().catch(()=>{});
-    botao.innerHTML = "⏸";
-    tocando = true;
-  } else {
-    musica.pause();
-    botao.innerHTML = "▶";
-    tocando = false;
-  }
+  el.classList.add("clicado");
+
+  setTimeout(() => {
+    el.classList.remove("clicado");
+  }, 600);
 }
 
 </script>
