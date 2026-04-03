@@ -2,29 +2,44 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Surpresa ❤️</title>
+  <title>...</title>
 
   <style>
     body {
-      text-align: center;
-      font-family: sans-serif;
-      background: #0f0f0f;
+      margin: 0;
+      height: 100vh;
+      background: black;
       color: white;
-      margin-top: 100px;
+      font-family: monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .container {
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .mostrar {
+      opacity: 1;
     }
 
     input {
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 10px;
       border: none;
       text-align: center;
+      margin-top: 20px;
+      background: #111;
+      color: white;
     }
 
     button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border-radius: 8px;
+      padding: 12px 25px;
+      border-radius: 10px;
       border: none;
       background: #ff4d6d;
       color: white;
@@ -32,42 +47,199 @@
       margin-top: 10px;
     }
 
-    button:hover {
-      background: #ff1f4b;
+    #pergunta {
+      margin-top: 20px;
+      letter-spacing: 2px;
     }
 
-    #mensagem {
+    #erro {
       margin-top: 20px;
-      color: #ff8080;
+      color: #ff4d6d;
+      min-height: 24px;
     }
+
+    /* 🐒 */
+    #macaco {
+      position: absolute;
+      font-size: 70px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0;
+    }
+
+    .pop {
+      animation: pop 0.5s forwards;
+    }
+
+    .subir {
+      animation: subir 3s ease forwards;
+    }
+
+    @keyframes pop {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      80% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); }
+    }
+
+    @keyframes subir {
+      to {
+        transform: translate(-50%, -250%);
+        opacity: 0;
+      }
+    }
+
   </style>
 </head>
 
 <body>
 
-  <h2>🔐 Área Secreta</h2>
-  <p>Dica: <i>O apelido que você odeia...</i></p>
+<div class="container" id="conteudo">
 
-  <input type="text" id="senha" placeholder="Digite a senha">
-  <br>
-  <button onclick="verificar()">Entrar</button>
+  <h2 id="titulo">ÁREA SECRETA</h2>
 
-  <p id="mensagem"></p>
+  <div id="senhaBox" style="display:none;">
+    <p id="pergunta"></p>
 
-  <script>
-    function verificar() {
-      var senha = document.getElementById("senha").value;
+    <input type="text" id="senha" placeholder="Digite a senha">
+    <br>
+    <button onclick="verificar()">Entrar</button>
 
-      if (senha.toLowerCase() === "macaquinha") {
-        window.location.href = "acerto.html";
-      } else {
-        document.getElementById("mensagem").innerText = "Você sempre terá uma chance.";
-        
-        // limpa o campo e mantém na mesma tela
-        document.getElementById("senha").value = "";
-      }
+    <p id="erro"></p>
+  </div>
+
+</div>
+
+<div id="macaco">🐒</div>
+
+<!-- SONS -->
+<audio id="vento" loop>
+  <source src="vento.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="teclado">
+  <source src="teclado.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const container = document.getElementById("conteudo");
+const titulo = document.getElementById("titulo");
+const senhaBox = document.getElementById("senhaBox");
+const pergunta = document.getElementById("pergunta");
+const erro = document.getElementById("erro");
+const macaco = document.getElementById("macaco");
+
+const vento = document.getElementById("vento");
+const teclado = document.getElementById("teclado");
+
+// ENTER
+document.getElementById("senha").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    verificar();
+  }
+});
+
+// FADE IN
+setTimeout(() => {
+  container.classList.add("mostrar");
+}, 500);
+
+// SUMIR TÍTULO
+setTimeout(() => {
+  titulo.style.opacity = "0";
+}, 2500);
+
+// MOSTRAR SENHA
+setTimeout(() => {
+  titulo.style.display = "none";
+  senhaBox.style.display = "block";
+
+  vento.volume = 0.3;
+  vento.play().catch(() => {});
+
+  escreverTexto("O APELIDO QUE VOCE ODEIA");
+
+}, 4000);
+
+
+// DIGITA PERGUNTA
+function escreverTexto(texto) {
+  let i = 0;
+  pergunta.innerHTML = "";
+
+  function digitar() {
+    if (i < texto.length) {
+      pergunta.innerHTML += texto.charAt(i);
+
+      teclado.currentTime = 0;
+      teclado.play().catch(() => {});
+
+      i++;
+      setTimeout(digitar, 70);
     }
-  </script>
+  }
+
+  digitar();
+}
+
+
+// DIGITA ERRO
+function escreverErro(texto) {
+  let i = 0;
+  erro.innerHTML = "";
+
+  function digitar() {
+    if (i < texto.length) {
+      erro.innerHTML += texto.charAt(i);
+
+      teclado.currentTime = 0;
+      teclado.play().catch(() => {});
+
+      i++;
+      setTimeout(digitar, 50);
+    }
+  }
+
+  digitar();
+}
+
+
+// VERIFICAÇÃO
+function verificar() {
+  var input = document.getElementById("senha");
+  var senha = input.value.toLowerCase().trim();
+
+  senha = senha.replace(/\s+/g, " ");
+
+  if (senha === "macaquinha") {
+
+    erro.innerHTML = "";
+
+    // esconde interface
+    container.style.display = "none";
+
+    // anima macaco
+    macaco.classList.add("pop");
+
+    setTimeout(() => {
+      macaco.classList.add("subir");
+    }, 600);
+
+    // redireciona após animação completa
+    setTimeout(() => {
+      window.location.href = "johhmayer.html";
+    }, 3800);
+
+  } else {
+
+    escreverErro("voce sempre terá uma chance :)");
+    input.value = "";
+    input.focus();
+  }
+}
+
+</script>
 
 </body>
 </html>
