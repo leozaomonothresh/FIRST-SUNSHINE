@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>A escolha</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: 'Share Tech Mono', monospace;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      min-height: 100vh;
+      transition: opacity 1.5s ease;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 90%;
+      width: 600px;
+      padding: 20px;
+      animation: fadeIn 2s ease;
+    }
+
+    h1 {
+      color: #00ff88;
+      font-size: clamp(28px, 6vw, 48px);
+      margin-bottom: 20px;
+      letter-spacing: 3px;
+    }
+
+    p {
+      color: white;
+      font-size: clamp(16px, 4vw, 20px);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .botoes {
+      margin-top: 30px;
+    }
+
+    button {
+      padding: 14px 28px;
+      margin: 10px;
+      border: 1px solid #00ff88;
+      background: transparent;
+      color: #00ff88;
+      font-size: clamp(16px, 4vw, 20px);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-radius: 8px;
+    }
+
+    button:hover {
+      background: #00ff88;
+      color: black;
+      box-shadow: 0 0 15px #00ff88;
+    }
+
+    .nao:hover {
+      background: red;
+      border-color: red;
+      box-shadow: 0 0 15px red;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+  <h1>A ESCOLHA</h1>
+
+  <p>
+Minha querida Rayane, espero que você esteja bem. Você não acha que as horas têm passado mais devagar ultimamente?<br><br>
+
+Apesar de estarmos lotados de coisas para fazer, parece que, sempre que deitamos a cabeça no travesseiro, o sono não vem, os sonhos não são bons, e a sensação de que sempre falta alguma coisa tem me perseguido há muito tempo. Você também sente isso?<br><br>
+
+Se a resposta for sim, peço que você continue lendo.<br><br>
+
+Caso seja não, pode ignorar o restante desta carta, pois ela já não te pertence mais.
+  </p>
+
+  <div class="botoes">
+    <button onclick="sim()">SIM</button>
+    <button class="nao" onclick="nao()">NÃO</button>
+  </div>
+
+</div>
+
+<script>
+
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext("2d");
+
+const letras = "アイウエオカキクケコサシスセソ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+const fonte = 16;
+
+let chuva = [];
+let colunas;
+
+// FUNÇÃO PRINCIPAL DE AJUSTE
+function ajustarCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  colunas = Math.floor(canvas.width / fonte);
+  chuva = [];
+
+  for (let i = 0; i < colunas; i++) {
+    chuva[i] = Math.random() * canvas.height;
+  }
+}
+
+// CHAMA AO CARREGAR
+ajustarCanvas();
+
+// EVENTOS IMPORTANTES
+window.addEventListener("resize", ajustarCanvas);
+document.addEventListener("fullscreenchange", ajustarCanvas);
+document.addEventListener("webkitfullscreenchange", ajustarCanvas);
+
+// DESENHO
+function desenhar() {
+  ctx.fillStyle = "rgba(0, 0, 0, 0.12)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  ctx.fillStyle = "rgba(0, 255, 136, 0.5)";
+  ctx.font = fonte + "px monospace";
+
+  for (let i = 0; i < chuva.length; i++) {
+    const texto = letras[Math.floor(Math.random() * letras.length)];
+
+    ctx.fillText(texto, i * fonte, chuva[i]);
+
+    chuva[i] += fonte;
+
+    if (chuva[i] > canvas.height && Math.random() > 0.975) {
+      chuva[i] = 0;
+    }
+  }
+}
+
+setInterval(desenhar, 40);
+
+
+// BOTÕES
+function sim() {
+  window.location.href = "slowdancing.html";
+}
+
+function nao() {
+  document.body.style.opacity = "0";
+
+  setTimeout(() => {
+    document.body.style.display = "none";
+  }, 1500);
+}
+
+</script>
+
+</body>
+</html>
