@@ -1,0 +1,32 @@
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Surpresa ❤️</title>
+</head>
+<body style="text-align:center; font-family:sans-serif; margin-top:50px;">
+
+<h2>Tenho uma pergunta pra você...</h2>
+<p>O que é que cresce quanto mais se divide?</p>
+
+<input type="text" id="senha" placeholder="Digite sua resposta">
+<br><br>
+<button onclick="verificar()">Enviar</button>
+
+<p id="resultado"></p>
+
+<script>
+function verificar() {
+  var senha = document.getElementById("senha").value.toLowerCase();
+
+  if (senha === "amor") {
+    window.location.href = "fase2.html";
+  } else {
+    document.getElementById("resultado").innerHTML = "Hmm... tenta de novo 💭";
+  }
+}
+</script>
+
+</body>
+</html>
