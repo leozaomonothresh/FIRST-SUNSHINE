@@ -180,16 +180,17 @@ function normalizar(s){
   return s.toLowerCase().trim();
 }
 
-// verificação
+// ✅ CORRIGIDO AQUI
 function verificar(){
 
   let senha = normalizar(document.getElementById("senha").value);
 
   if(senha === "meu"){
 
-    document.body.innerHTML = `
+    const container = document.querySelector(".container");
+
+    container.innerHTML = `
       <div style="
-        height:100vh;
         display:flex;
         flex-direction:column;
         justify-content:center;
@@ -203,7 +204,6 @@ function verificar(){
     `;
 
     const texto = document.getElementById("texto");
-
     escrever("Eu te amo :)", texto);
 
     const flor = document.getElementById("flor");
