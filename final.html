@@ -135,9 +135,31 @@ button:hover {
   <source src="teclado.mp3" type="audio/mpeg">
 </audio>
 
-<audio id="musica" loop>
-  <source src="firstsunshine.mp3" type="audio/mpeg">
-</audio>
+flor.addEventListener("click", async ()=>{
+
+  flor.classList.add("clicado");
+
+  setTimeout(()=>{
+    flor.classList.remove("clicado");
+  },600);
+
+  try {
+    const musica = document.getElementById("musica");
+
+    if (musica) {
+      musica.volume = 0.3;
+
+      // 👉 força play corretamente
+      await musica.play();
+
+      console.log("Música tocando");
+    }
+
+  } catch (err) {
+    console.log("Erro ao tocar áudio:", err);
+  }
+
+});
 
 <script>
 
