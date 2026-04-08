@@ -121,12 +121,12 @@ button:hover {
 
 </div>
 
-<audio id="teclado">
+<!-- sons -->
+<audio id="teclado" preload="auto">
   <source src="teclado.mp3" type="audio/mpeg">
 </audio>
 
-<!-- 🔊 ADICIONADO -->
-<audio id="musica">
+<audio id="musica" preload="auto">
   <source src="musica.mp3" type="audio/mpeg">
 </audio>
 
@@ -198,7 +198,7 @@ function verificar(){
     const flor = document.getElementById("flor");
     const musica = document.getElementById("musica");
 
-    flor.addEventListener("click", async ()=>{
+    flor.addEventListener("click", ()=>{
 
       flor.classList.add("clicado");
 
@@ -206,13 +206,21 @@ function verificar(){
         flor.classList.remove("clicado");
       },600);
 
-      try {
-        if(musica){
-          musica.volume = 0.3;
-          await musica.play();
+      if(musica){
+        musica.volume = 0.3;
+
+        const playPromise = musica.play();
+
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              console.log("🎵 tocando!");
+            })
+            .catch(err => {
+              console.log("❌ erro:", err);
+              alert("O navegador bloqueou o áudio 😢");
+            });
         }
-      } catch(err){
-        console.log("Erro ao tocar áudio:", err);
       }
 
     });
