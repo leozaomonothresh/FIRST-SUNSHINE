@@ -126,8 +126,9 @@ button:hover {
   <source src="teclado.mp3" type="audio/mpeg">
 </audio>
 
+<!-- ✅ CORRIGIDO AQUI -->
 <audio id="musica" preload="auto">
-  <source src="musica.mp3" type="audio/mpeg">
+  <source src="firstsunshine.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -135,6 +136,7 @@ button:hover {
 const pergunta = document.getElementById("pergunta");
 const erro = document.getElementById("erro");
 const teclado = document.getElementById("teclado");
+const musica = document.getElementById("musica");
 
 // máquina de escrever
 function escrever(texto, el) {
@@ -196,7 +198,6 @@ function verificar(){
     escrever("Eu te amo :)", texto);
 
     const flor = document.getElementById("flor");
-    const musica = document.getElementById("musica");
 
     flor.addEventListener("click", ()=>{
 
@@ -209,18 +210,14 @@ function verificar(){
       if(musica){
         musica.volume = 0.3;
 
-        const playPromise = musica.play();
+        console.log("tentando tocar...");
 
-        if (playPromise !== undefined) {
-          playPromise
-            .then(() => {
-              console.log("🎵 tocando!");
-            })
-            .catch(err => {
-              console.log("❌ erro:", err);
-              alert("O navegador bloqueou o áudio 😢");
-            });
-        }
+        musica.play()
+          .then(() => console.log("🎵 tocando"))
+          .catch(err => {
+            console.log("❌ erro:", err);
+            alert("O navegador bloqueou o áudio 😢");
+          });
       }
 
     });
