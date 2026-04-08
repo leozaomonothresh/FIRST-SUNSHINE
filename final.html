@@ -11,21 +11,18 @@ body {
   background: black;
   color: white;
   font-family: monospace;
-
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
 }
 
-/* container melhorado */
 .container {
   width: 90%;
   max-width: 600px;
   padding: 30px;
 }
 
-/* pergunta */
 #pergunta {
   font-size: clamp(26px, 6vw, 42px);
   line-height: 1.4;
@@ -33,7 +30,6 @@ body {
   min-height: 80px;
 }
 
-/* input maior */
 input {
   padding: 16px;
   border-radius: 12px;
@@ -47,7 +43,6 @@ input {
   font-size: 18px;
 }
 
-/* botão melhor */
 button {
   padding: 14px 30px;
   border-radius: 12px;
@@ -64,19 +59,16 @@ button:hover {
   transform: scale(1.05);
 }
 
-/* erro */
 #erro {
   margin-top: 20px;
   color: #888;
   font-size: 14px;
 }
 
-/* 🌻 */
 .flor {
   font-size: 50px;
   cursor: pointer;
   display: inline-block;
-
   animation: flutuar 3s ease-in-out infinite,
              pulsar 2s ease-in-out infinite;
 }
@@ -87,13 +79,11 @@ button:hover {
   opacity: 0.6;
 }
 
-/* texto final grande */
 .texto-final {
   font-size: clamp(40px, 10vw, 70px);
   margin-bottom: 20px;
 }
 
-/* animação click */
 .clicado {
   animation: clickAnim 0.6s ease;
 }
@@ -135,31 +125,10 @@ button:hover {
   <source src="teclado.mp3" type="audio/mpeg">
 </audio>
 
-flor.addEventListener("click", async ()=>{
-
-  flor.classList.add("clicado");
-
-  setTimeout(()=>{
-    flor.classList.remove("clicado");
-  },600);
-
-  try {
-    const musica = document.getElementById("musica");
-
-    if (musica) {
-      musica.volume = 0.3;
-
-      // 👉 força play corretamente
-      await musica.play();
-
-      console.log("Música tocando");
-    }
-
-  } catch (err) {
-    console.log("Erro ao tocar áudio:", err);
-  }
-
-});
+<!-- 🔊 ADICIONADO -->
+<audio id="musica">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio>
 
 <script>
 
@@ -197,12 +166,10 @@ document.getElementById("senha").addEventListener("keydown", e=>{
   if(e.key === "Enter") verificar();
 });
 
-// normaliza
 function normalizar(s){
   return s.toLowerCase().trim();
 }
 
-// ✅ CORRIGIDO AQUI
 function verificar(){
 
   let senha = normalizar(document.getElementById("senha").value);
@@ -231,18 +198,22 @@ function verificar(){
     const flor = document.getElementById("flor");
     const musica = document.getElementById("musica");
 
-    flor.addEventListener("click", ()=>{
-
-      if(musica){
-        musica.volume = 0.3;
-        musica.play().catch(()=>{});
-      }
+    flor.addEventListener("click", async ()=>{
 
       flor.classList.add("clicado");
 
       setTimeout(()=>{
         flor.classList.remove("clicado");
       },600);
+
+      try {
+        if(musica){
+          musica.volume = 0.3;
+          await musica.play();
+        }
+      } catch(err){
+        console.log("Erro ao tocar áudio:", err);
+      }
 
     });
 
